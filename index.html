@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- NIW --> <title>HeyHoTec — Applied AI Research & Development</title>
+  <!-- NIW --> <meta name="description" content="HeyHoTec develops applied AI systems—RAG, multi-agent workflows, and automation—to enhance decision-making and operational efficiency for industry and research partners.">
+  <!-- NIW --> <link rel="canonical" href="https://heyhotec.com/">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- NIW: ultra-short JSON-LD (بدون تغییر در UI) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"HeyHoTec",
+    "url":"https://heyhotec.com/",
+    "logo":"https://heyhotec.com/assets/Logo.png",
+    "founder":{"@type":"Person","name":"Dr. Zeinab Hajiabotorabi","jobTitle":"AI Developer","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressCountry":"CA"}},
+    "description":"Independent AI R&D studio delivering RAG, multi-agent systems, and automation."
+  }
+  </script>
+
+  <style>
+    body { margin: 0; font-family: 'Poppins', Montserrat, sans-serif; }
+    header {
+      position: fixed; top: 0; left: 0; width: 100%;
+      background-color: #0A1A2F; display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 40px; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand img { height: 80px; }
+    .brand span { color: #FFD369; font-size: 22px; font-weight: 700; }
+    nav { display: flex; gap: 14px; }
+    nav ul { display: flex; gap: 16px; font-size: 15px; }
+    nav a { color: #ffffff; text-decoration: none; font-weight: 300; transition: color 0.3s; }
+    nav a:hover { color: #FFD369; }
+    nav a:first-child { color: #FFD369; font-weight: bold; }
+    section { padding-top: 80px; }
+    /* NIW: footer stays minimal */
+    footer { text-align:center; padding: 28px 16px; color:#cbd5e1; background:#071424; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <img src="assets/Logo.png" alt="HeyHoTec Logo" />
+      <span>HeyHoTec</span>
+    </div>
+    <nav style="display: flex; flex-wrap: wrap; gap: 14px; font-size: 14px;">
+        <a href="#hero">Home</a>
+        <a href="#how-it-works">HowItWorks</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#offers">Offers</a>
+    </nav>
+  </header>
+
+  <section id="hero"></section>
+  <section id="how-it-works"></section>
+  <section id="services"></section>
+  <section id="about"></section>
+  <section id="contact"></section>
+  <section id="offers"></section>
+
+  <!-- NIW: concise professional footer -->
+  <footer>
+    © 2025 HeyHoTec — Independent AI Research & Development • Toronto, Canada
+  </footer>
+
+  <script src="js/loadModules.js"></script>
+</body>
+</html>

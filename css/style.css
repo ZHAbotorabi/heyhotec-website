@@ -1,0 +1,90 @@
+html {
+  scroll-behavior: smooth;
+}
+body {
+  padding-top: 80px; /* For fixed navbar */
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #0A1A2F;
+  color: #ffffff;
+}
+
+a {
+  color: #00E0E0;
+  text-decoration: none;
+}
+
+h1, h2, h3 {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.brand-logo {
+  width: 180px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+}
+
+.brand-name {
+  font-size: 28px;
+  font-weight: 800;
+  color: #00e6e6; 
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 1px;
+}
+nav {
+  display: flex;
+  flex-wrap: wrap;  /* Important to prevent menu items from overflowing off the page */
+  gap: 14px;
+  font-size: 16px;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #0A1A2F;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Keeps space between logo and nav */
+  padding: 10px 40px;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #FFD369;
+}
