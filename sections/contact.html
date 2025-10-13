@@ -1,46 +1,60 @@
-<section id="contact" style="background-color:#0A1A2F; padding: 80px 20px; text-align: center;">
-  <h2 style="color: #FFD369; font-size: 2rem; margin-bottom: 40px;">Let’s build something intelligent together</h2>
+<form id="contactForm" action="https://formspree.io/f/xwprwrgy" method="POST" style="max-width:720px; margin:0 auto;">
+  <input type="text" name="name" placeholder="Your Name" required
+         style="width:100%; padding:14px; margin-bottom:12px; border-radius:8px; border:0;">
 
-  <p style="color: #ccc; font-size: 1.1rem; max-width: 600px; margin: 0 auto 40px;">
-    Ready to bring AI into your business?
-    Whether your goal is to build advanced RAG systems, deploy multi-agent frameworks, or automate workflows — let’s make it real. I’d be excited to collaborate on your project.
-  </p>
+  <input type="email" name="_replyto" placeholder="Your Email" required
+         style="width:100%; padding:14px; margin-bottom:12px; border-radius:8px; border:0;">
 
-  <form style="max-width: 500px; margin: 0 auto;">
-    <input type="text" placeholder="Your Name (e.g., Sarah Lee)" required style="
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: none;
-      border-radius: 5px;
-    " />
-    <input type="email" placeholder="Your Email (e.g., sarah@company.com)" required style="
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: none;
-      border-radius: 5px;
-    " />
-    <textarea placeholder="Tell me briefly about your goals or challenges..." rows="5" required style="
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 5px;
-    "></textarea>
+  <textarea name="message" rows="6" placeholder="Tell me about your project…" required
+            style="width:100%; padding:14px; margin-bottom:16px; border-radius:8px; border:0;"></textarea>
 
-    <button type="submit" style="
-      background-color: #FFD369;
-      color: #0A1A2F;
-      padding: 14px 28px;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    ">Send Message</button>
-  </form>
+  <button id="sendBtn" type="submit" style="
+    background: #FFD369;
+    color: #0A1A2F;
+    font-weight: 700;
+    border: 0;
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    display: inline-block;
+  ">
+    Send Message
+  </button>
 
-  <div style="margin-top: 40px; color: #888;">
-    Or just email me at <a href="mailto:info@heyhotec.com" style="color: #00E0E0;">info@heyhotec.com</a>
-  </div>
-</section>
+  <div id="formStatus" style="margin-top:12px; color:#cbd5e1;"></div>
+</form>
+
+<script>
+  (function () {
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
+    const btn = document.getElementById('sendBtn');
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      status.textContent = '';
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          form.reset();
+          status.style.color = '#7cf3cf';
+          status.textContent = 'Thanks! Your message has been sent.';
+        } else {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error || 'Something went wrong. Try again.');
+        }
+      } catch (err) {
+        status.style.color = '#ffb4b4';
+        status.textContent = err.message || 'Network error. Please email us directly.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+      }
+    });
+  })();
+</script>
