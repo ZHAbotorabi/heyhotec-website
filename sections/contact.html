@@ -1,4 +1,4 @@
-<section id="contact" style="padding: 80px 20px; background:#0A1A2F; text-align:center;">
+<<section id="contact" style="padding: 80px 20px; background:#0A1A2F; text-align:center;">
   <h2 style="color:#FFD369; font-size:2rem; margin:0 0 12px;">Let's Work Together</h2>
   <p style="color:#CBD5E1; font-size:1.05rem; margin:0 auto 28px; max-width:820px;">
     Ready to bring AI into your business?
@@ -7,7 +7,7 @@
   </p>
 
   <!-- FORM -->
-  <form id="contactForm" action="https://formspree.io/f/xwprwrgy" method="POST"
+  <form id="contactForm" method="POST"
         style="max-width:720px; margin:0 auto;">
     <input type="text" name="name" placeholder="Your Name (e.g., Sarah Lee)" required
            autocomplete="name"
@@ -38,17 +38,33 @@
     </a>
   </p>
 
-  <!-- AJAX success message / error handling -->
+  <!-- ✅ Load your local config (local only, ignored by Git) -->
+  <script src="/config.local.js"></script>
+
+  <!-- ✅ Dynamic form action + AJAX handling -->
   <script>
     (function () {
       const form = document.getElementById('contactForm');
       const status = document.getElementById('formStatus');
       const btn = document.getElementById('sendBtn');
 
+      // set form action dynamically from config.local.js
+      function setFormAction() {
+        if (window.APP_CONFIG && window.APP_CONFIG.FORMSPREE_KEY) {
+          form.action = window.APP_CONFIG.FORMSPREE_KEY;
+        } else {
+          // fallback (optional): uncomment to hardcode a backup endpoint
+          // form.action = "https://formspree.io/f/xwprw";
+        }
+      }
+
+      setFormAction();
+
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
         status.textContent = '';
-        btn.disabled = true; btn.textContent = 'Sending...';
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
 
         try {
           const res = await fetch(form.action, {
@@ -69,7 +85,8 @@
           status.style.color = '#ffb4b4';
           status.textContent = err.message || 'Network error. Please email us directly.';
         } finally {
-          btn.disabled = false; btn.textContent = 'Send Message';
+          btn.disabled = false;
+          btn.textContent = 'Send Message';
         }
       });
     })();
