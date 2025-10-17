@@ -7,7 +7,7 @@
   </p>
 
   <!-- FORM -->
-  <form id="contactForm" action="https://formspree.io/f/xwprwrgy" method="POST"
+  <form id="contactForm" method="POST"
         style="max-width:720px; margin:0 auto;">
     <input type="text" name="name" placeholder="Your Name (e.g., Sarah Lee)" required
            autocomplete="name"
@@ -38,17 +38,32 @@
     </a>
   </p>
 
-  <!-- AJAX success message / error handling -->
+  <!-- Load local config (works only locally, safe if 404s in production) -->
+  <script src="/config.local.js"></script>
+
+  <!-- Dynamic Form Action + POST Fix -->
   <script>
     (function () {
       const form = document.getElementById('contactForm');
       const status = document.getElementById('formStatus');
       const btn = document.getElementById('sendBtn');
 
+      // ✅ Default fallback Formspree endpoint
+      const DEFAULT_FORMSPREE = "https://formspree.io/f/xwprwrgy";
+
+      function setFormAction() {
+        const localKey = (window.APP_CONFIG && window.APP_CONFIG.FORMSPREE_KEY) || "";
+        form.action = localKey || DEFAULT_FORMSPREE;
+        form.method = "POST"; // ✅ ensures correct method
+      }
+
+      setFormAction();
+
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
         status.textContent = '';
-        btn.disabled = true; btn.textContent = 'Sending...';
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
 
         try {
           const res = await fetch(form.action, {
@@ -69,7 +84,8 @@
           status.style.color = '#ffb4b4';
           status.textContent = err.message || 'Network error. Please email us directly.';
         } finally {
-          btn.disabled = false; btn.textContent = 'Send Message';
+          btn.disabled = false;
+          btn.textContent = 'Send Message';
         }
       });
     })();
