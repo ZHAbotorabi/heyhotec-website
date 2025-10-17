@@ -38,57 +38,53 @@
     </a>
   </p>
 
-  <!-- ✅ Load your local config (local only, ignored by Git) -->
-  <script src="/config.local.js"></script>
+  <!-- Keep this if you use it locally; it's fine if 404s in prod -->
+<script src="/config.local.js"></script>
 
-  <!-- ✅ Dynamic form action + AJAX handling -->
-  <script>
-    (function () {
-      const form = document.getElementById('contactForm');
-      const status = document.getElementById('formStatus');
-      const btn = document.getElementById('sendBtn');
+<script>
+  (function () {
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
+    const btn = document.getElementById('sendBtn');
 
-      // set form action dynamically from config.local.js
-      function setFormAction() {
-        if (window.APP_CONFIG && window.APP_CONFIG.FORMSPREE_KEY) {
-          form.action = window.APP_CONFIG.FORMSPREE_KEY;
+    // ✅ Fallback for production (no local config available)
+    const DEFAULT_FORMSPREE = "https://formspree.io/f/xwprw";
+
+    function setFormAction() {
+      const localKey = (window.APP_CONFIG && window.APP_CONFIG.FORMSPREE_KEY) || "";
+      form.action = localKey || DEFAULT_FORMSPREE; // ← fallback fixes 405 in prod
+    }
+
+    setFormAction();
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      status.textContent = '';
+      btn.disabled = true; btn.textContent = 'Sending...';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          form.reset();
+          status.style.color = '#7cf3cf';
+          status.textContent = 'Thanks! Your message has been sent.';
         } else {
-          // fallback (optional): uncomment to hardcode a backup endpoint
-          // form.action = "https://formspree.io/f/xwprw";
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data?.error || 'Something went wrong. Please try again.');
         }
+      } catch (err) {
+        status.style.color = '#ffb4b4';
+        status.textContent = err.message || 'Network error. Please email us directly.';
+      } finally {
+        btn.disabled = false; btn.textContent = 'Send Message';
       }
+    });
+  })();
+</script>
 
-      setFormAction();
-
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        status.textContent = '';
-        btn.disabled = true;
-        btn.textContent = 'Sending...';
-
-        try {
-          const res = await fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form),
-            headers: { 'Accept': 'application/json' }
-          });
-
-          if (res.ok) {
-            form.reset();
-            status.style.color = '#7cf3cf';
-            status.textContent = 'Thanks! Your message has been sent.';
-          } else {
-            const data = await res.json().catch(() => ({}));
-            throw new Error(data?.error || 'Something went wrong. Please try again.');
-          }
-        } catch (err) {
-          status.style.color = '#ffb4b4';
-          status.textContent = err.message || 'Network error. Please email us directly.';
-        } finally {
-          btn.disabled = false;
-          btn.textContent = 'Send Message';
-        }
-      });
-    })();
-  </script>
 </section>
